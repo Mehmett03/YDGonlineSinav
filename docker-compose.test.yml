@@ -1,0 +1,52 @@
+version: '3.8'
+
+# Test environment configuration
+services:
+  test_db:
+    image: postgres:15-alpine
+    container_name: ydg_test_postgres
+    environment:
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+      POSTGRES_DB: test_exam_db
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test_user -d test_exam_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ydg_test_network
+
+  test_backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: ydg_test_backend
+    ports:
+      - "8001:8000"
+    environment:
+      DATABASE_URL: postgresql://test_user:test_password@test_db:5432/test_exam_db
+      SECRET_KEY: test-secret-key
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+      TESTING: "true"
+    depends_on:
+      test_db:
+        condition: service_healthy
+    networks:
+      - ydg_test_network
+
+  selenium:
+    image: selenium/standalone-chrome:latest
+    container_name: ydg_test_selenium
+    ports:
+      - "4445:4444"
+    shm_size: 2gb
+    networks:
+      - ydg_test_network
+
+networks:
+  ydg_test_network:
+    driver: bridge

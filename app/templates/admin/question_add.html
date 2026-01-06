@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Soru Ekle - {{ exam.title }} - Online Sınav Sistemi{% endblock %}
+
+{% block navbar %}
+<nav class="navbar">
+    <div class="navbar-content">
+        <a href="/admin/dashboard" class="navbar-brand">
+            📝 Sınav Yönetimi
+        </a>
+        <ul class="navbar-nav">
+            <li><a href="/admin/dashboard" class="nav-link">Dashboard</a></li>
+            <li><a href="/admin/exam/create" class="nav-link">Yeni Sınav</a></li>
+            <li>
+                <a href="/auth/logout" class="btn btn-secondary">
+                    Çıkış ({{ user.full_name }})
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-between align-center mb-4">
+        <div>
+            <h1>{{ exam.title }}</h1>
+            <p>Süresi: {{ exam.duration_minutes }} dakika | Mevcut Soru: {{ questions|length }}</p>
+        </div>
+        <a href="/admin/dashboard" class="btn btn-secondary">
+            ← Dashboard'a Dön
+        </a>
+    </div>
+
+    <div class="cards-grid" style="grid-template-columns: 1fr 1fr;">
+        <!-- Add Question Form -->
+        <div class="glass-card">
+            <h2 class="mb-3">➕ Yeni Soru Ekle</h2>
+
+            <form method="POST" action="/admin/exam/{{ exam.id }}/question-form">
+                <div class="form-group">
+                    <label class="form-label" for="question_text">Soru Metni</label>
+                    <textarea id="question_text" name="question_text" class="form-control"
+                        placeholder="Soruyu buraya yazın..." rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="option_a">A Şıkkı</label>
+                    <input type="text" id="option_a" name="option_a" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="option_b">B Şıkkı</label>
+                    <input type="text" id="option_b" name="option_b" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="option_c">C Şıkkı</label>
+                    <input type="text" id="option_c" name="option_c" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="option_d">D Şıkkı</label>
+                    <input type="text" id="option_d" name="option_d" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="correct_answer">Doğru Cevap</label>
+                    <select id="correct_answer" name="correct_answer" class="form-control" required>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-block">
+                    Soruyu Ekle
+                </button>
+            </form>
+        </div>
+
+        <!-- Existing Questions -->
+        <div>
+            <h2 class="mb-3">📋 Mevcut Sorular ({{ questions|length }})</h2>
+
+            {% if questions %}
+            {% for q in questions %}
+            <div class="question-card">
+                <div class="question-number">Soru {{ loop.index }}</div>
+                <div class="question-text">{{ q.question_text }}</div>
+                <ul class="options-list">
+                    <li class="option-item">
+                        <span class="option-label {% if q.correct_answer.value == 'A' %}option-correct{% endif %}">
+                            <span class="option-marker">A</span>
+                            <span class="option-text">{{ q.option_a }}</span>
+                        </span>
+                    </li>
+                    <li class="option-item">
+                        <span class="option-label {% if q.correct_answer.value == 'B' %}option-correct{% endif %}">
+                            <span class="option-marker">B</span>
+                            <span class="option-text">{{ q.option_b }}</span>
+                        </span>
+                    </li>
+                    <li class="option-item">
+                        <span class="option-label {% if q.correct_answer.value == 'C' %}option-correct{% endif %}">
+                            <span class="option-marker">C</span>
+                            <span class="option-text">{{ q.option_c }}</span>
+                        </span>
+                    </li>
+                    <li class="option-item">
+                        <span class="option-label {% if q.correct_answer.value == 'D' %}option-correct{% endif %}">
+                            <span class="option-marker">D</span>
+                            <span class="option-text">{{ q.option_d }}</span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="glass-card text-center">
+                <p class="text-muted">Henüz soru eklenmedi.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

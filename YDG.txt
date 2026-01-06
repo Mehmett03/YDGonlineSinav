@@ -1,0 +1,16 @@
+Yöneticiler, sistem üzerinden sınavlar oluşturabilir, bu sınavlara ait soruları tanımlayabilir ve sınavların sürelerini belirleyebilir. Hazırlanan sınavlar sistemde yayınlandıktan sonra öğrencilerin erişimine açılır. Böylece sınav süreci tamamen dijital ortamda yönetilebilir.
+
+Öğrenciler ise sisteme giriş yaptıktan sonra kendilerine tanımlı olan sınavları görebilir ve sınav süresi içerisinde bu sınavlara katılabilir. Sınav sırasında sorular ekranda gösterilir ve öğrenciler cevaplarını işaretleyerek ilerler. Belirlenen süre dolduğunda sınav otomatik olarak sonlandırılır ve cevaplar sistem tarafından değerlendirilir.
+
+Sistem, her öğrencinin bir sınava yalnızca bir kez katılmasına izin verir. Bu sayede sınav güvenliği sağlanır ve adil bir değerlendirme ortamı oluşturulur. Sınav tamamlandıktan sonra öğrenci, aldığı puanı ve sınav sonucunu görüntüleyebilir.
+
+
+docker-compose up -d
+# Tarayıcıda: http://localhost:8000
+# Admin: admin / admin123
+
+Testleri Çalıştır:
+.\venv\Scripts\activate
+
+pytest tests/unit/ -v          # 45 test
+pytest tests/integration/ -v   # 12 test

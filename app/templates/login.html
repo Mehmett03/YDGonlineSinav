@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Giriş - Online Sınav Sistemi{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card glass-card">
+        <div class="auth-header">
+            <div class="auth-logo">📝</div>
+            <h1>Online Sınav Sistemi</h1>
+            <p>Hesabınıza giriş yapın</p>
+        </div>
+
+        {% if error %}
+        <div class="alert alert-error">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        {% if request.query_params.get('registered') %}
+        <div class="alert alert-success">
+            ✅ Kayıt başarılı! Şimdi giriş yapabilirsiniz.
+        </div>
+        {% endif %}
+
+        <form method="POST" action="/auth/login-form">
+            <div class="form-group">
+                <label class="form-label" for="username">Kullanıcı Adı</label>
+                <input type="text" id="username" name="username" class="form-control"
+                    placeholder="Kullanıcı adınızı girin" required autofocus>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">Şifre</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Şifrenizi girin"
+                    required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block btn-lg">
+                Giriş Yap
+            </button>
+        </form>
+
+        <div class="auth-links">
+            <p>Hesabınız yok mu? <a href="/auth/register-page">Kayıt Olun</a></p>
+        </div>
+
+        <div class="text-center mt-3 text-muted" style="font-size: 0.875rem;">
+            <p>Demo Hesaplar:</p>
+            <p>Admin: admin / admin123</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Online Sınav Sistemi{% endblock %}
+
+{% block navbar %}
+<nav class="navbar">
+    <div class="navbar-content">
+        <a href="/admin/dashboard" class="navbar-brand">
+            📝 Sınav Yönetimi
+        </a>
+        <ul class="navbar-nav">
+            <li><a href="/admin/dashboard" class="nav-link active">Dashboard</a></li>
+            <li><a href="/admin/exam/create" class="nav-link">Yeni Sınav</a></li>
+            <li>
+                <a href="/auth/logout" class="btn btn-secondary">
+                    Çıkış ({{ user.full_name }})
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-between align-center mb-4">
+        <div>
+            <h1>Hoş Geldiniz, {{ user.full_name }}!</h1>
+            <p>Sınavlarınızı yönetin ve yeni sınavlar oluşturun.</p>
+        </div>
+        <a href="/admin/exam/create" class="btn btn-primary btn-lg">
+            ➕ Yeni Sınav Oluştur
+        </a>
+    </div>
+
+    <h2 class="mb-3">📋 Sınavlarım</h2>
+
+    {% if exams %}
+    <div class="cards-grid">
+        {% for exam in exams %}
+        <div class="exam-card">
+            <div class="exam-card-header">
+                <h3 class="exam-card-title">{{ exam.title }}</h3>
+                <span class="exam-card-badge {% if exam.is_active %}badge-active{% else %}badge-taken{% endif %}">
+                    {% if exam.is_active %}Aktif{% else %}Pasif{% endif %}
+                </span>
+            </div>
+            <p class="text-muted">{{ exam.description or 'Açıklama yok' }}</p>
+            <div class="exam-card-info">
+                <span>⏱️ {{ exam.duration_minutes }} dakika</span>
+                <span>📝 {{ exam.questions|length }} soru</span>
+            </div>
+            <div class="d-flex gap-2 mt-3">
+                <a href="/admin/exam/{{ exam.id }}/questions" class="btn btn-secondary">
+                    Soruları Düzenle
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="glass-card text-center">
+        <h3>Henüz sınav oluşturmadınız</h3>
+        <p class="text-muted">İlk sınavınızı oluşturmak için yukarıdaki butona tıklayın.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

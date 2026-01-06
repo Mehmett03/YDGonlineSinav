@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Yeni Sınav - Online Sınav Sistemi{% endblock %}
+
+{% block navbar %}
+<nav class="navbar">
+    <div class="navbar-content">
+        <a href="/admin/dashboard" class="navbar-brand">
+            📝 Sınav Yönetimi
+        </a>
+        <ul class="navbar-nav">
+            <li><a href="/admin/dashboard" class="nav-link">Dashboard</a></li>
+            <li><a href="/admin/exam/create" class="nav-link active">Yeni Sınav</a></li>
+            <li>
+                <a href="/auth/logout" class="btn btn-secondary">
+                    Çıkış ({{ user.full_name }})
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container-sm">
+    <div class="glass-card">
+        <h1 class="text-center mb-4">➕ Yeni Sınav Oluştur</h1>
+
+        <form method="POST" action="/admin/exam/create-form">
+            <div class="form-group">
+                <label class="form-label" for="title">Sınav Başlığı</label>
+                <input type="text" id="title" name="title" class="form-control"
+                    placeholder="örn: Matematik Final Sınavı" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="description">Açıklama (Opsiyonel)</label>
+                <textarea id="description" name="description" class="form-control"
+                    placeholder="Sınav hakkında kısa bir açıklama..." rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="duration_minutes">Süre (Dakika)</label>
+                <input type="number" id="duration_minutes" name="duration_minutes" class="form-control" placeholder="30"
+                    value="30" min="5" max="180" required>
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit" class="btn btn-primary btn-lg" style="flex: 1;">
+                    Sınav Oluştur ve Soru Ekle
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center mt-3">
+            <a href="/admin/dashboard" class="text-muted">← Dashboard'a Dön</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

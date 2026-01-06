@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YDG Projesi - Online Sınav Sistemi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #f8fafc;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            color: #94a3b8;
+            font-size: 1.2rem;
+        }
+
+        .header .course {
+            margin-top: 20px;
+            padding: 10px 25px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 30px;
+            display: inline-block;
+            color: #a5b4fc;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section h2 {
+            color: #6366f1;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .tech-item {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .tech-item .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .check {
+            color: #10b981;
+            font-size: 1.2rem;
+        }
+
+        .test-results {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .test-card {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .test-card .number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #10b981;
+        }
+
+        .test-card .label {
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+
+        .e2e-scenarios {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .scenario {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .scenario-num {
+            background: #6366f1;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .cmd-box {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Consolas', monospace;
+            overflow-x: auto;
+        }
+
+        .cmd-box code {
+            color: #10b981;
+        }
+
+        .pipeline-stages {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .stage {
+            background: rgba(99, 102, 241, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #64748b;
+        }
+
+        @media (max-width: 768px) {
+
+            .test-results,
+            .e2e-scenarios {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 Online Sınav Sistemi</h1>
+            <p class="subtitle">Yazılım Doğrulama ve Geçerleme (YDG) Projesi</p>
+            <div class="course">🎓 Ders: Yazılım Doğrulama ve Geçerleme</div>
+        </div>
+
+        <div class="section">
+            <h2>🛠️ Kullanılan Teknolojiler</h2>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <div class="icon">🐍</div>
+                    <div>Python FastAPI</div>
+                </div>
+                <div class="tech-item">
+                    <div class="icon">🎨</div>
+                    <div>Jinja2 Templates</div>
+                </div>
+                <div class="tech-item">
+                    <div class="icon">🐘</div>
+                    <div>PostgreSQL</div>
+                </div>
+                <div class="tech-item">
+                    <div class="icon">🐳</div>
+                    <div>Docker</div>
+                </div>
+                <div class="tech-item">
+                    <div class="icon">🔧</div>
+                    <div>Jenkins CI/CD</div>
+                </div>
+                <div class="tech-item">
+                    <div class="icon">🧪</div>
+                    <div>Pytest + Selenium</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>✅ Fonksiyonel Özellikler</h2>
+            <ul class="feature-list">
+                <li><span class="check">✓</span> Admin / Öğrenci rol ayrımı ve yetkilendirme</li>
+                <li><span class="check">✓</span> JWT tabanlı kimlik doğrulama</li>
+                <li><span class="check">✓</span> Admin: Sınav oluşturma, soru ekleme, süre belirleme</li>
+                <li><span class="check">✓</span> Öğrenci: Aktif sınavları görme, sınava katılma</li>
+                <li><span class="check">✓</span> Süreli sınav sistemi (geri sayım)</li>
+                <li><span class="check">✓</span> Süre dolduğunda otomatik bitirme</li>
+                <li><span class="check">✓</span> Otomatik puanlama sistemi</li>
+                <li><span class="check">✓</span> Aynı sınava tekrar girme engeli</li>
+                <li><span class="check">✓</span> Detaylı sonuç ekranı (not dönüşümü ile)</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🧪 Test Sonuçları</h2>
+            <div class="test-results">
+                <div class="test-card">
+                    <div class="number">45</div>
+                    <div class="label">Unit Test ✓</div>
+                </div>
+                <div class="test-card">
+                    <div class="number">12</div>
+                    <div class="label">Integration Test ✓</div>
+                </div>
+                <div class="test-card">
+                    <div class="number">10</div>
+                    <div class="label">E2E Selenium Senaryosu</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎭 10 Selenium Test Senaryosu</h2>
+            <div class="e2e-scenarios">
+                <div class="scenario"><span class="scenario-num">1</span> Başarılı giriş</div>
+                <div class="scenario"><span class="scenario-num">2</span> Başarısız giriş denemesi</div>
+                <div class="scenario"><span class="scenario-num">3</span> Admin sınav oluşturma</div>
+                <div class="scenario"><span class="scenario-num">4</span> Admin soru ekleme</div>
+                <div class="scenario"><span class="scenario-num">5</span> Öğrenci sınav görüntüleme</div>
+                <div class="scenario"><span class="scenario-num">6</span> Sınav tamamlama</div>
+                <div class="scenario"><span class="scenario-num">7</span> Süre dolunca otomatik bitirme</div>
+                <div class="scenario"><span class="scenario-num">8</span> Tekrar girme engeli</div>
+                <div class="scenario"><span class="scenario-num">9</span> Sonuç ekranı doğrulama</div>
+                <div class="scenario"><span class="scenario-num">10</span> Çıkış işlemi</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔄 Jenkins CI/CD Pipeline</h2>
+            <p style="margin-bottom: 15px; color: #94a3b8;">18 ayrı stage içeren declarative pipeline:</p>
+            <div class="pipeline-stages">
+                <span class="stage">📥 Checkout</span>
+                <span class="stage">🔧 Setup</span>
+                <span class="stage">🧪 Unit Tests</span>
+                <span class="stage">🔗 Integration Tests</span>
+                <span class="stage">🐳 Docker Build</span>
+                <span class="stage">🚀 Start Services</span>
+                <span class="stage">E2E-01</span>
+                <span class="stage">E2E-02</span>
+                <span class="stage">E2E-03</span>
+                <span class="stage">E2E-04</span>
+                <span class="stage">E2E-05</span>
+                <span class="stage">E2E-06</span>
+                <span class="stage">E2E-07</span>
+                <span class="stage">E2E-08</span>
+                <span class="stage">E2E-09</span>
+                <span class="stage">E2E-10</span>
+                <span class="stage">🧹 Cleanup</span>
+                <span class="stage">📊 Report</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🚀 Çalıştırma</h2>
+            <div class="cmd-box">
+                <code># Docker ile başlatma</code><br>
+                <code>docker-compose up --build</code><br><br>
+                <code># Tarayıcıda açın</code><br>
+                <code>http://localhost:8000</code><br><br>
+                <code># Demo Giriş</code><br>
+                <code>Admin: admin / admin123</code>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📂 Proje Yapısı</h2>
+            <div class="cmd-box">
+                <code>YDG/</code><br>
+                <code>├── app/                 # FastAPI uygulaması</code><br>
+                <code>│   ├── models/         # Veritabanı modelleri</code><br>
+                <code>│   ├── routers/        # API endpoint'leri</code><br>
+                <code>│   ├── services/       # İş mantığı</code><br>
+                <code>│   └── templates/      # HTML şablonları</code><br>
+                <code>├── tests/               # Test dosyaları</code><br>
+                <code>│   ├── unit/           # 45 unit test</code><br>
+                <code>│   ├── integration/    # 12 integration test</code><br>
+                <code>│   └── e2e/            # 10 Selenium testi</code><br>
+                <code>├── docker-compose.yml   # Container yapılandırması</code><br>
+                <code>└── Jenkinsfile          # CI/CD pipeline</code>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>YDG - Yazılım Doğrulama ve Geçerleme Dersi Projesi</p>
+            <p style="margin-top: 10px;">📅 2024-2025 Güz Dönemi</p>
+        </div>
+    </div>
+</body>
+
+</html>

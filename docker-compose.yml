@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: ydg_postgres
+    environment:
+      POSTGRES_USER: ydg_user
+      POSTGRES_PASSWORD: ydg_password
+      POSTGRES_DB: online_exam_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ydg_user -d online_exam_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ydg_network
+
+  # FastAPI Backend
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: ydg_backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://ydg_user:ydg_password@db:5432/online_exam_db
+      SECRET_KEY: ydg-secret-key-for-jwt-tokens
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./app:/app/app
+    networks:
+      - ydg_network
+
+  # Selenium for E2E Testing
+  selenium:
+    image: selenium/standalone-chrome:latest
+    container_name: ydg_selenium
+    ports:
+      - "4444:4444"
+      - "7900:7900"  # VNC viewer port
+    shm_size: 2gb
+    environment:
+      SE_NODE_MAX_SESSIONS: 4
+    networks:
+      - ydg_network
+
+volumes:
+  postgres_data:
+
+networks:
+  ydg_network:
+    driver: bridge

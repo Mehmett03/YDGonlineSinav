@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Sonuç - {{ exam.title }}{% endblock %}
+
+{% block navbar %}
+<nav class="navbar">
+    <div class="navbar-content">
+        <a href="/student/dashboard" class="navbar-brand">
+            🎓 Öğrenci Paneli
+        </a>
+        <ul class="navbar-nav">
+            <li><a href="/student/dashboard" class="nav-link">Sınavlar</a></li>
+            <li><a href="/student/results-page" class="nav-link active">Sonuçlarım</a></li>
+            <li>
+                <a href="/auth/logout" class="btn btn-secondary">
+                    Çıkış ({{ user.full_name }})
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="glass-card result-card mb-4">
+        <h1>{{ exam.title }}</h1>
+        <div class="result-score">{{ attempt.score|round|int }}%</div>
+        <div class="result-grade {% if attempt.score >= 60 %}grade-pass{% else %}grade-fail{% endif %}">
+            {{ grade }}
+        </div>
+        <div class="result-details">
+            <p>✅ Doğru: {{ correct_count }} / {{ total_questions }}</p>
+            <p>❌ Yanlış: {{ total_questions - correct_count }}</p>
+            <p>⏱️ Tamamlanma: {{ attempt.finished_at.strftime('%d.%m.%Y %H:%M') if attempt.finished_at else 'N/A' }}</p>
+        </div>
+    </div>
+
+    <h2 class="mb-3">📋 Cevap Detayları</h2>
+
+    {% for detail in answer_details %}
+    <div class="question-card">
+        <div class="question-number">
+            Soru {{ loop.index }}
+            {% if detail.is_correct %}
+            <span style="color: var(--success-color);">✅ Doğru</span>
+            {% else %}
+            <span style="color: var(--danger-color);">❌ Yanlış</span>
+            {% endif %}
+        </div>
+        <div class="question-text">{{ detail.question.question_text }}</div>
+
+        <ul class="options-list">
+            {% for option, text in [('A', detail.question.option_a), ('B', detail.question.option_b), ('C',
+            detail.question.option_c), ('D', detail.question.option_d)] %}
+            <li class="option-item">
+                <span class="option-label 
+                    {% if detail.question.correct_answer.value == option %}option-correct{% endif %}
+                    {% if detail.selected == option and not detail.is_correct %}option-wrong{% endif %}
+                ">
+                    <span class="option-marker">{{ option }}</span>
+                    <span class="option-text">
+                        {{ text }}
+                        {% if detail.question.correct_answer.value == option %}
+                        <strong>(Doğru Cevap)</strong>
+                        {% endif %}
+                        {% if detail.selected == option %}
+                        <em>(Seçiminiz)</em>
+                        {% endif %}
+                    </span>
+                </span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+
+    <div class="text-center mt-4">
+        <a href="/student/dashboard" class="btn btn-primary btn-lg">
+            ← Panele Dön
+        </a>
+    </div>
+</div>
+{% endblock %}

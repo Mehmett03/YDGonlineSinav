@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Kayıt Ol - Online Sınav Sistemi{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card glass-card">
+        <div class="auth-header">
+            <div class="auth-logo">📝</div>
+            <h1>Kayıt Ol</h1>
+            <p>Yeni bir öğrenci hesabı oluşturun</p>
+        </div>
+
+        {% if error %}
+        <div class="alert alert-error">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="POST" action="/auth/register-form">
+            <div class="form-group">
+                <label class="form-label" for="full_name">Ad Soyad</label>
+                <input type="text" id="full_name" name="full_name" class="form-control"
+                    placeholder="Adınız ve soyadınız" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="username">Kullanıcı Adı</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Kullanıcı adı seçin"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="email">E-posta</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="ornek@email.com" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">Şifre</label>
+                <input type="password" id="password" name="password" class="form-control"
+                    placeholder="Şifrenizi belirleyin" required minlength="6">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password_confirm">Şifre Tekrar</label>
+                <input type="password" id="password_confirm" name="password_confirm" class="form-control"
+                    placeholder="Şifrenizi tekrar girin" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block btn-lg">
+                Kayıt Ol
+            </button>
+        </form>
+
+        <div class="auth-links">
+            <p>Zaten hesabınız var mı? <a href="/auth/login-page">Giriş Yapın</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
